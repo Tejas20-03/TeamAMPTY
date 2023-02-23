@@ -1,21 +1,35 @@
-import React,{useState} from "react";
+import React, { useState,useEffect } from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from 'react-file-base64';
-import {useDispatch} from 'react-redux';
+import { useDispatch , useSelector} from 'react-redux';
 import useStyles from './styles';
-import {createPost} from '../../actions/posts';
+import { createPost , updatePost} from '../../actions/posts';
 
-const Form = () => {
-    const [postData,setPostData] = useState({
-        creator:'',title:'',description:'',tags:'',selectedFile:''
+    
+
+
+
+const Form = ({ currentId, setCurrentId }) => {
+    const [postData, setPostData] = useState({
+        creator: '', title: '', description: '', tags: '', selectedFile: ''
     });
+    const post = useSelector((state) => currentId ? state.posts.find((p)=>p._id===currentId):null);
+
     const classes = useStyles();
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
+
+    useEffect(()=>{
+        if(post) setPostData(post);
+    },[post]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        dispatch(createPost(postData));
+        if (currentId) {
+            dispatch(updatePost(currentId, postData));
+        } else {
+            dispatch(createPost(postData));
+        }
     }
     const clear = () => {
 
@@ -23,21 +37,21 @@ const Form = () => {
 
     return (
         <Paper className={classes.paper}>
-            <form className={'${classes.root} ${classes.form} '} noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <form className={"${classes.root} ${classes.form}"} noValidate autoComplete="off" onSubmit={handleSubmit}>
                 <Typography variant="h6">Creating a Career</Typography>
-                <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e)=> setPostData({...postData,[e.target.name]:e.target.value}) } />
-                <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e)=> setPostData({...postData,title:e.target.value}) } />
-                <TextField name="description" variant="outlined" label="Description" fullWidth value={postData.description} onChange={(e)=> setPostData({...postData,description:e.target.value}) } />
-                <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e)=> setPostData({...postData,tags:e.target.value}) } />
-                <div className={classes.fileInput}>Attach Roadmap : 
+                <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, [e.target.name]: e.target.value })} />
+                <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
+                <TextField name="description" variant="outlined" label="Description" fullWidth value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} />
+                <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value })} />
+                <div className={classes.fileInput}>Attach Roadmap :
 
                     <FileBase
                         type="file"
                         multiple={false}
-                        onDone={({base64})=>setPostData({...postData,selectedFile:base64})}
+                        onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })}
                     />
                 </div>
-                <Button className={classes.buttonSubmit} variant="container" color="primary" size="large" type="submit" fullWidth>Submit</Button>
+                <Button className={classes.buttonSubmit} variant="contained" color="primary" size="large" type="submit" fullWidth>Submit</Button>
                 <Button variant="contained" color="secondary" size="small" onClick={clear} fullWidth>Clear</Button>
             </form>
         </Paper>

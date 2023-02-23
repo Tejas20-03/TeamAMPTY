@@ -17,9 +17,6 @@ const postSchema = mongoose.Schema({
     selectedFile : {
         type: String
     },
-    // description: String,
-    // creator: String,
-    // tags: [String],
     popularity: {
         type: Number,
         default: 0
