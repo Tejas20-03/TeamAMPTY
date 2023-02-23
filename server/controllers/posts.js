@@ -30,7 +30,7 @@ export const updatePost = async (req, res) => {
     try {
         if (!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id');
 
-        const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
+        const updatedPost = await PostMessage.findByIdAndUpdate(_id, { ...post, _id }, { new: true });
         res.json(updatedPost);
     } catch (error) {
         res.status(404).send('Internal Server Error')
@@ -39,4 +39,25 @@ export const updatePost = async (req, res) => {
 
     // const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, { new: true });
     // res.json(updatedPost);
+}
+
+export const deletePost = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
+
+    await PostMessage.findByIdAndRemove(id);
+
+    res.json({ message: 'Post Deleted Successfully!!' });
+}
+
+export const likePost = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with that id');
+
+    const post = await PostMessage.findById(id);
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+
+    res.json(updatePost);
 }
