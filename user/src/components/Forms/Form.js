@@ -6,9 +6,6 @@ import useStyles from './styles';
 import { createPost, updatePost } from '../../actions/posts';
 
 
-
-
-
 const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
         creator: '', title: '', description: '', tags: '', selectedFile: ''
@@ -41,12 +38,12 @@ const Form = ({ currentId, setCurrentId }) => {
 
     return (
         <Paper className={classes.paper}>
-            <form className={"${classes.root} ${classes.form}"} noValidate autoComplete="off" onSubmit={handleSubmit}>
-                <Typography variant="h6">{currentId ? 'Editing' : 'Creating'} a Career</Typography>
+            <form className={'${classes.root} ${classes.form}'} noValidate autoComplete="off" onSubmit={handleSubmit}>
+                <Typography variant="h6">{currentId ? 'Updating' : 'Creating'} a Career</Typography>
                 <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, [e.target.name]: e.target.value })} />
                 <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
                 <TextField name="description" variant="outlined" label="Description" fullWidth value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} />
-                <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value })} />
+                <TextField name="tags" variant="outlined" label="Tags" fullWidth value={postData.tags} onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })} />
                 <div className={classes.fileInput}>Attach Roadmap :
 
                     <FileBase
