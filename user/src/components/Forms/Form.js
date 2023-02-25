@@ -52,7 +52,7 @@ const Form = ({ currentId, setCurrentId }) => {
     const handleChange = (event) => {
       const {
         target: { value },
-      } = event;
+      }=event;
       setPersonName(
         typeof value === 'string' ? value.split(',') : value,
       );
@@ -87,20 +87,21 @@ const Form = ({ currentId, setCurrentId }) => {
 
     return (
         <Paper className={classes.paper}>
-            <form className={'${classes.root} ${classes.form}'} noValidate autoComplete="off" onSubmit={handleSubmit}>
+            <form className={`${classes.root} ${classes.form}`} noValidate autoComplete="off" onSubmit={handleSubmit}>
                 <Typography variant="h6">{currentId ? 'Updating' : 'Creating'} a Career</Typography>
                 <TextField name="creator" variant="outlined" label="Creator" fullWidth value={postData.creator} onChange={(e) => setPostData({ ...postData, [e.target.name]: e.target.value })} />
                 <TextField name="title" variant="outlined" label="Title" fullWidth value={postData.title} onChange={(e) => setPostData({ ...postData, title: e.target.value })} />
                 <TextField name="description" variant="outlined" label="Description" fullWidth value={postData.description} onChange={(e) => setPostData({ ...postData, description: e.target.value })} />
 
-                <FormControl sx={{ m: 0, width: 346 }}>
-                    <InputLabel id="demo-multiple-chip-label">Tags</InputLabel>
+                <FormControl sx={{ m: 0, width: 333 }}>
+                    <InputLabel id="demo-multiple-chip-label" className={classes.form} >Tags </InputLabel>
                     <Select
                       labelId="demo-multiple-chip-label"
                       id="demo-multiple-chip"
                       multiple
                       value={personName}
                       onChange={handleChange}
+                      
                       input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                       renderValue={(selected) => (
                         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
@@ -121,6 +122,7 @@ const Form = ({ currentId, setCurrentId }) => {
                         </MenuItem>
                     ))}
                     </Select>
+                    
                 </FormControl>
                 <div className={classes.fileInput}>Attach Roadmap :
 
