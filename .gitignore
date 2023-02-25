@@ -1,3 +1,5 @@
 server/node_modules/
 user/node_modules/
 server/.env
+
+MONGO_URI = "mongodb+srv://Team_Ampty:team_ampty@cluster0.poacukh.mongodb.net/?retryWrites=true&w=majority"
