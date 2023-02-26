@@ -5,6 +5,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Input from './Input';
 import { useDispatch } from 'react-redux'
 import {signin,signup} from '../../actions/auth';
+// import './auth.css';
 
 
 const initialState={firstName:'',lastName:'',email:'',password:'',confirmPassword:''};
@@ -19,16 +20,16 @@ const Auth = () => {
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
 
-        if(isSignup){
-            dispatch(signup(formData,history))
-        }else{
-            dispatch(signin(formData,history))
+    //     if(isSignup){
+    //         dispatch(signup(formData,history))
+    //     }else{
+    //         dispatch(signin(formData,history))
 
-        }
-    };
+    //     }
+    // };
 
     const handleChange = (e) => {
         setFormData({...formData,[e.target.name]:e.target.value});
@@ -41,12 +42,12 @@ const Auth = () => {
 
     return (
         <Container component="main" maxWidth="xs">
-            <Paper className={classes.paper} elevation={3} >
+            <Paper className={classes.card} elevation={3} >
                 <Avatar className={classes.Avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography variant='h5'>{isSignup ? 'Sign Up' : 'Sign In'}</Typography>
-                <form className={classes.form} onSubmit={handleSubmit}>
+                <form className={classes.form}>
                     <Grid container spacing={2}>
                         {
                             isSignup && (
